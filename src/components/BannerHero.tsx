@@ -1,8 +1,8 @@
 export function BannerHero() {
   return (
     <div
-      className="flex flex-col justify-center custom-bg-image:justify-start pl-8
-     custom-bg-image:pl-4 h-[250px] pt-20 custom-bg-image:h-[400px] max-w-screen-xl mx-auto"
+      className="flex flex-col justify-center items-center sm:items-start
+     sm:pl-4 h-[250px] pt-20 sm:h-[400px] max-w-screen-xl mx-auto"
     >
       <h2 className="text-base lg:text-xl font-bold font-lato">
         Uma nova experiência!

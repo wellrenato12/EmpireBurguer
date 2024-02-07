@@ -12,7 +12,6 @@ export default {
       },
       screens: {
         'custom-3xl': '1750px',
-        'custom-bg-image': '430px',
       },
     },
   },

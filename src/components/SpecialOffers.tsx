@@ -5,7 +5,7 @@ import IconTimer from '../assets/Icon-Timer.png'
 
 export function SpecialOffers() {
   return (
-    <div className="flex flex-col mx-auto max-w-screen-xl px-8 mt-[250px] lg:mt-[120px]">
+    <div className="flex flex-col mx-auto max-w-screen-xl px-8 mt-[250px] md:mt-[120px]">
       <h1 className="text-4xl font-lilita-one">Ofertas Especiais</h1>
       <p className="font-lato text-[#1d0605]">
         Aproveite todas as nossas ofertas, fiquem de olhos abertos, porque
