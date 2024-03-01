@@ -1,66 +1,76 @@
-import ImageComments from '../assets/ImageComments.png'
-import Background from '../assets/Background.png'
+import Slider from 'react-slick'
+import { useEffect, useState } from 'react'
+
+interface CommentsProps {
+  name: string
+  image: string
+  age: number
+  testimonial: string
+}
 
 export function Comments() {
+  const [data, setData] = useState<CommentsProps[]>([])
+
+  async function fetchData() {
+    try {
+      const response = await fetch(
+        'https://api.brchallenges.com/api/empire-burger/testimonials',
+      )
+      const data = await response.json()
+      setData(data)
+    } catch (error) {
+      console.log('Erro:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
-    <div className="flex flex-col bg-[#faf3f2] max-w-screen-xl mx-auto">
-      <div className="flex flex-col sm:flex-row gap-8 justify-center items-center border-b-[1px] border-[#1d0605] border-opacity-20 my-20">
-        <div className="relative w-[378px] h-[300px] sm:mb-20">
-          <img
-            className="absolute inset-0 top-[96px]"
-            src={Background}
-            alt=""
-          />
-          <img
-            className="absolute left-[40px] inset-0 h-[300px] w-[284px] object-cover"
-            src={ImageComments}
-            alt=""
-          />
-        </div>
-        <div className="flex flex-col gap-4 w-[350px]">
-          <h2 className="font-lilita-one text-4xl">
-            ATENDIMENTO{' '}
-            <span className="bg-[#f59a1b] rounded px-1">PERSONALIZADO</span>
-          </h2>
-          <p className="font-lato">
-            Todos os nossos clientes são tratados como rei e rainha, com a nossa
-            colinaria artesanal.
-          </p>
-          <button className="bg-[#f43127] w-[210px] p-2 rounded text-white font-bold mb-20 sm:mb-0">
-            Cardápio Imperial
-          </button>
-        </div>
-      </div>
-      <div className="flex flex-col px-10">
-        <div className="flex flex-col">
-          <h2 className="font-lilita-one text-[32px]">NOSSA REALEZA</h2>
-          <p className="font-lato mb-4">
-            A satisfação de nossos clientes em primeiro lugar!
-          </p>
-        </div>
-        <div className="flex flex-row gap-4 mb-10">
-          <div className="flex flex-col gap-4 bg-white w-[370px] rounded-lg shadow-md px-6 py-2">
-            <p className="font-lato">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut quas
-              soluta voluptatibus doloremque, cumque exercitationem quis vel
-              deleniti facilis quisquam.
-            </p>
-            <div className="flex items-center gap-4">
-              <img
-                className="h-[100px] rounded-full"
-                src={ImageComments}
-                alt=""
-              />
-              <div className="flex flex-col">
-                <h2 className="font-lilita-one text-[18px]">Carla Gomes</h2>
-                <span className="font-lato text-[12px]">
-                  23 Anos &bull; Designer
-                </span>
+    <Slider
+      infinite
+      autoplay
+      speed={500}
+      slidesToShow={3} // Define quantos slides serão exibidos de uma vez
+      slidesToScroll={1} // Define quantos slides serão movidos ao avançar/retroceder
+      responsive={[
+        {
+          breakpoint: 1280, // Define o ponto de quebra para dispositivos de tela média
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 768, // Define o ponto de quebra para dispositivos de tela pequena
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+      ]}
+    >
+      {data.map((item) => {
+        return (
+          <div key={item.name} className="flex gap-4 mb-10 h-[300px]">
+            <div className="flex flex-col justify-around gap-4 h-full bg-white w-[370px] rounded-lg shadow-md px-6 py-2">
+              <p className="font-lato">{item.testimonial}</p>
+              <div className="flex items-center gap-4">
+                <img
+                  className="h-[100px]  rounded-full"
+                  src={item.image}
+                  alt=""
+                />
+                <div className="flex flex-col">
+                  <h2 className="font-lilita-one text-[18px]">{item.name}</h2>
+                  <span className="font-lato text-[12px]">{item.age} anos</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        )
+      })}
+    </Slider>
   )
 }

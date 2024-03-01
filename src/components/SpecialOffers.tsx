@@ -12,7 +12,7 @@ export function SpecialOffers() {
         sempre estamos mudando o nosso cardápio.
       </p>
 
-      <div className="grid grid-cols-1 grid-rows-3 sm:grid-cols-3 sm:grid-rows-2 gap-4 xl:w-[1280px] mt-4">
+      <div className="grid grid-cols-1 grid-rows-3 sm:grid-cols-3 sm:grid-rows-2 gap-4 mt-4">
         <img
           className="col-span-1 row-span-1 sm:col-span-2 sm:row-span-2 h-full w-full object-cover"
           src={BurguerImperial}

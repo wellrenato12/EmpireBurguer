@@ -2,8 +2,31 @@ import { useEffect, useState } from 'react'
 import MenuImage from '../assets/MenuImage.png'
 import MenuImageMobile from '../assets/MenuImageMobile.png'
 
+interface MenuProps {
+  plate: string
+  price: number
+  ingredients: string
+}
+
 export function Menu() {
   const [backgroundImage, setBackgroundImage] = useState(MenuImage)
+  const [data, setData] = useState<MenuProps[]>([])
+
+  async function fetchData() {
+    try {
+      const response = await fetch(
+        'https://api.brchallenges.com/api/empire-burger/menu',
+      )
+      const data = await response.json()
+      setData(data)
+    } catch (error) {
+      console.log('Erro:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   useEffect(() => {
     const handleSize = () => {
@@ -22,6 +45,7 @@ export function Menu() {
       window.removeEventListener('resize', handleSize)
     }
   }, [])
+
   return (
     <div className="flex flex-col 2xl:flex-row items-center mt-20 h-[1250px] sm:h-[1150px] 2xl:h-[575px] w-full">
       <div
@@ -47,50 +71,20 @@ export function Menu() {
         <h2 className="font-lilita-one text-3xl text-[#f59a1b]">
           CARDÁPIO IMPERIAL | BURGUER
         </h2>
-        <div>
-          <h3 className="font-lilita-one text-xl text-[#fae4d0]">
-            CLASSIC BURGER
-            .........................................................................
-            R$49,99
-          </h3>
-          <p className="font-lato text-[#ffffff] max-w-[470px]">
-            Hamburguer bonino 160g, Molho, Bacon, Queijo prato, peito de peru,
-            Tomate, Alface, Servidor do pão de batata
-          </p>
-        </div>
-        <div>
-          <h3 className="font-lilita-one text-xl text-[#fae4d0]">
-            SPECIAL BIG BURGUER
-            .................................................................
-            R$49,99
-          </h3>
-          <p className="font-lato text-[#ffffff] max-w-[470px]">
-            Hamburguer bonino 160g, Molho, Bacon, Queijo prato, peito de peru,
-            Tomate, Alface, Servidor do pão de batata
-          </p>
-        </div>
-        <div>
-          <h3 className="font-lilita-one text-xl text-[#fae4d0]">
-            SPECIAL MAC BURGUER
-            .................................................................
-            R$49,99
-          </h3>
-          <p className="font-lato text-[#ffffff] max-w-[470px]">
-            Hamburguer bonino 160g, Molho, Bacon, Queijo prato, peito de peru,
-            Tomate, Alface, Servidor do pão de batata
-          </p>
-        </div>
-        <div>
-          <h3 className="font-lilita-one text-xl text-[#fae4d0]">
-            MEXICAN BURGUER
-            ......................................................................
-            R$49,99
-          </h3>
-          <p className="font-lato text-[#ffffff] max-w-[470px]">
-            Hamburguer bonino 160g, Molho, Bacon, Queijo prato, peito de peru,
-            Tomate, Alface, Servidor do pão de batata
-          </p>
-        </div>
+        {data.map((item) => {
+          return (
+            <div key={item.plate}>
+              <h3 className="font-lilita-one text-xl text-[#fae4d0]">
+                {item.plate}
+                .........................................................................
+                R${item.price.toFixed(2)}.
+              </h3>
+              <p className="font-lato text-[#ffffff] max-w-[470px]">
+                {item.ingredients}
+              </p>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
